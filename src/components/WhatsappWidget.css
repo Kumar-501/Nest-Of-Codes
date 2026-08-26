@@ -1,0 +1,705 @@
+/* ============================================================
+   Nest of Codes – Premium WhatsApp Widget
+   WhatsAppWidget.css
+   Design: Glassmorphism · Glow · Micro-interactions
+   ============================================================ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  --noc-wa-green:        #25d366;
+  --noc-wa-green-dark:   #128c4b;
+  --noc-wa-green-glow:   rgba(37, 211, 102, 0.45);
+  --noc-wa-green-subtle: rgba(37, 211, 102, 0.12);
+
+  --noc-wa-glass-bg:     rgba(10, 12, 20, 0.72);
+  --noc-wa-glass-border: rgba(255, 255, 255, 0.09);
+  --noc-wa-glass-shine:  rgba(255, 255, 255, 0.04);
+
+  --noc-wa-surface:      rgba(18, 22, 34, 0.94);
+  --noc-wa-surface-2:    rgba(25, 30, 48, 0.88);
+
+  --noc-wa-text-primary:   #f0f4ff;
+  --noc-wa-text-secondary: rgba(200, 210, 240, 0.65);
+  --noc-wa-text-accent:    #7dd3fc;
+
+  --noc-wa-btn-size-desk: 62px;
+  --noc-wa-btn-size-mob:  56px;
+
+  --noc-wa-card-w:   340px;
+  --noc-wa-radius:   20px;
+  --noc-wa-radius-sm: 12px;
+
+  --noc-wa-right-desk: 30px;
+  --noc-wa-bottom-desk: 30px;
+  --noc-wa-right-mob:  20px;
+  --noc-wa-bottom-mob: 20px;
+
+  --noc-wa-z: 9999;
+
+  --noc-wa-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --noc-wa-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Root Wrapper ── */
+.noc-wa-root {
+  position: fixed;
+  right: var(--noc-wa-right-desk);
+  bottom: var(--noc-wa-bottom-desk);
+  z-index: var(--noc-wa-z);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(24px) scale(0.92);
+  transition:
+    opacity 0.55s var(--noc-wa-ease-smooth),
+    transform 0.55s var(--noc-wa-ease-spring);
+  pointer-events: none;
+}
+
+.noc-wa-root--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ============================================================
+   CHAT CARD
+   ============================================================ */
+.noc-wa-card {
+  width: var(--noc-wa-card-w);
+  background: var(--noc-wa-glass-bg);
+  border: 1px solid var(--noc-wa-glass-border);
+  border-radius: var(--noc-wa-radius);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    0 0 0 1px var(--noc-wa-glass-shine) inset,
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 0 0 0 var(--noc-wa-green-glow);
+  overflow: hidden;
+
+  /* Collapsed */
+  opacity: 0;
+  transform: translateY(20px) scale(0.94);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition:
+    opacity 0.38s var(--noc-wa-ease-smooth),
+    transform 0.42s var(--noc-wa-ease-spring),
+    box-shadow 0.38s ease;
+}
+
+.noc-wa-card--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  box-shadow:
+    0 0 0 1px var(--noc-wa-glass-shine) inset,
+    0 16px 48px rgba(0, 0, 0, 0.65),
+    0 0 60px -10px var(--noc-wa-green-glow);
+}
+
+/* ── Card Header ── */
+.noc-wa-card__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(18, 140, 75, 0.28) 0%,
+    rgba(37, 211, 102, 0.12) 60%,
+    rgba(10, 12, 20, 0) 100%
+  );
+  border-bottom: 1px solid var(--noc-wa-glass-border);
+  overflow: hidden;
+}
+
+.noc-wa-card__header-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 20% 50%,
+    rgba(37, 211, 102, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.noc-wa-card__avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a8a50 0%, #25d366 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+  position: relative;
+}
+
+.noc-wa-card__avatar svg {
+  width: 22px;
+  height: 22px;
+}
+
+.noc-wa-card__header-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.noc-wa-card__company {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--noc-wa-text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noc-wa-card__company-suffix {
+  font-weight: 500;
+  color: var(--noc-wa-text-secondary);
+}
+
+.noc-wa-card__reply-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--noc-wa-text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.noc-wa-card__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--noc-wa-green);
+  flex-shrink: 0;
+  animation: noc-status-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes noc-status-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+.noc-wa-card__close {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--noc-wa-glass-border);
+  background: var(--noc-wa-glass-shine);
+  color: var(--noc-wa-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.noc-wa-card__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+.noc-wa-card__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--noc-wa-text-primary);
+  transform: rotate(90deg);
+}
+
+/* ── Card Body ── */
+.noc-wa-card__body {
+  padding: 20px 16px 4px;
+  background: var(--noc-wa-surface);
+}
+
+.noc-wa-card__bubble-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.noc-wa-card__bubble {
+  background: var(--noc-wa-surface-2);
+  border: 1px solid var(--noc-wa-glass-border);
+  border-radius: var(--noc-wa-radius-sm) var(--noc-wa-radius-sm) var(--noc-wa-radius-sm) 4px;
+  padding: 13px 15px 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(210, 220, 245, 0.88);
+  position: relative;
+  flex: 1;
+  animation: noc-bubble-in 0.45s var(--noc-wa-ease-spring) both;
+  animation-delay: 0.15s;
+}
+
+@keyframes noc-bubble-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.noc-wa-card__bubble p {
+  margin: 0 0 8px;
+}
+
+.noc-wa-card__bubble p:last-of-type {
+  margin-bottom: 6px;
+}
+
+.noc-wa-card__bubble strong {
+  color: var(--noc-wa-text-primary);
+  font-weight: 600;
+}
+
+.noc-wa-card__bubble-time {
+  display: block;
+  font-size: 10.5px;
+  color: var(--noc-wa-text-secondary);
+  text-align: right;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* ── Card Footer ── */
+.noc-wa-card__footer {
+  padding: 16px 16px 14px;
+  background: var(--noc-wa-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.noc-wa-card__cta {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: none;
+  transition:
+    transform 0.22s var(--noc-wa-ease-spring),
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    filter 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.noc-wa-card__cta svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Primary – WhatsApp green */
+.noc-wa-card__cta--primary {
+  background: linear-gradient(135deg, #1a8f52 0%, #25d366 100%);
+  color: #fff;
+  box-shadow:
+    0 4px 18px rgba(37, 211, 102, 0.38),
+    0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+.noc-wa-card__cta--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.noc-wa-card__cta--primary:hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 8px 28px rgba(37, 211, 102, 0.52),
+    0 1px 0 rgba(255,255,255,0.2) inset;
+}
+
+.noc-wa-card__cta--primary:hover::before {
+  opacity: 1;
+}
+
+.noc-wa-card__cta--primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Secondary – Call */
+.noc-wa-card__cta--secondary {
+  background: var(--noc-wa-surface-2);
+  border: 1px solid var(--noc-wa-glass-border);
+  color: var(--noc-wa-text-secondary);
+}
+
+.noc-wa-card__cta--secondary:hover {
+  background: rgba(37, 211, 102, 0.08);
+  border-color: rgba(37, 211, 102, 0.35);
+  color: var(--noc-wa-green);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.12);
+}
+
+.noc-wa-card__cta--secondary:active {
+  transform: translateY(0);
+}
+
+/* ── Bottom Bar ── */
+.noc-wa-card__bottom-bar {
+  padding: 8px 16px 12px;
+  background: var(--noc-wa-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--noc-wa-text-secondary);
+  opacity: 0.5;
+  border-top: 1px solid var(--noc-wa-glass-border);
+  letter-spacing: 0.04em;
+}
+
+.noc-wa-card__dot-sep {
+  opacity: 0.6;
+}
+
+/* ============================================================
+   TRIGGER BUTTON WRAPPER
+   ============================================================ */
+.noc-wa-trigger-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ── Tooltip ── */
+.noc-wa-tooltip {
+  position: absolute;
+  right: calc(var(--noc-wa-btn-size-desk) + 14px);
+  white-space: nowrap;
+  background: var(--noc-wa-glass-bg);
+  border: 1px solid var(--noc-wa-glass-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--noc-wa-text-primary);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 7px 13px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px) scale(0.94);
+  transition:
+    opacity 0.28s var(--noc-wa-ease-smooth),
+    transform 0.28s var(--noc-wa-ease-spring);
+}
+
+.noc-wa-tooltip--visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.noc-wa-tooltip__arrow {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: var(--noc-wa-glass-bg);
+  border-top: 1px solid var(--noc-wa-glass-border);
+  border-right: 1px solid var(--noc-wa-glass-border);
+}
+
+/* ── Main Floating Button ── */
+.noc-wa-btn {
+  position: relative;
+  width: var(--noc-wa-btn-size-desk);
+  height: var(--noc-wa-btn-size-desk);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #1a9451 0%, #25d366 55%, #34e878 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow:
+    0 6px 24px rgba(37, 211, 102, 0.5),
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 0 0 0 var(--noc-wa-green-glow);
+  transition:
+    transform 0.28s var(--noc-wa-ease-spring),
+    box-shadow 0.28s ease,
+    background 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.noc-wa-btn:hover {
+  transform: translateY(-4px) scale(1.06);
+  box-shadow:
+    0 12px 36px rgba(37, 211, 102, 0.62),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 0 0 var(--noc-wa-green-glow);
+}
+
+.noc-wa-btn:active {
+  transform: scale(0.95);
+}
+
+.noc-wa-btn--active {
+  background: linear-gradient(145deg, #0e1a2e 0%, #1c2a44 100%);
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.5),
+    0 0 32px rgba(37, 211, 102, 0.2);
+}
+
+/* ── Pulse Rings ── */
+.noc-wa-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--noc-wa-green);
+  pointer-events: none;
+}
+
+.noc-wa-pulse--1 {
+  animation: noc-pulse 2.4s ease-out infinite;
+}
+
+.noc-wa-pulse--2 {
+  animation: noc-pulse 2.4s ease-out 0.8s infinite;
+}
+
+@keyframes noc-pulse {
+  0%   { transform: scale(1);    opacity: 0.75; }
+  70%  { transform: scale(1.95); opacity: 0; }
+  100% { transform: scale(2.1);  opacity: 0; }
+}
+
+/* ── Online Indicator ── */
+.noc-wa-online {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #00e676;
+  border: 2.5px solid #0d1117;
+  box-shadow: 0 0 6px rgba(0, 230, 118, 0.7);
+  animation: noc-online-ping 2.8s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes noc-online-ping {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,230,118,0.7); }
+  50%       { box-shadow: 0 0 12px rgba(0,230,118,0.95); }
+}
+
+/* ── Button Icons (WA ↔ Close swap) ── */
+.noc-wa-btn__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.22s ease,
+    transform 0.28s var(--noc-wa-ease-spring);
+}
+
+.noc-wa-btn__icon--wa svg {
+  width: 28px;
+  height: 28px;
+}
+
+.noc-wa-btn__icon--close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.noc-wa-btn__icon--hidden {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+  pointer-events: none;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .noc-wa-pulse,
+  .noc-wa-card__status-dot,
+  .noc-wa-online {
+    animation: none;
+  }
+  .noc-wa-root,
+  .noc-wa-card,
+  .noc-wa-btn,
+  .noc-wa-tooltip,
+  .noc-wa-card__bubble {
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* 1280px and below */
+@media (max-width: 1280px) {
+  :root {
+    --noc-wa-card-w: 324px;
+  }
+}
+
+/* 1024px – Laptop */
+@media (max-width: 1024px) {
+  :root {
+    --noc-wa-card-w: 316px;
+  }
+}
+
+/* 768px – Tablet */
+@media (max-width: 768px) {
+  :root {
+    --noc-wa-card-w: 306px;
+    --noc-wa-right-desk: var(--noc-wa-right-mob);
+    --noc-wa-bottom-desk: var(--noc-wa-bottom-mob);
+    --noc-wa-btn-size-desk: var(--noc-wa-btn-size-mob);
+  }
+
+  .noc-wa-card__company {
+    font-size: 13px;
+  }
+}
+
+/* 480px – Large Mobile */
+@media (max-width: 480px) {
+  :root {
+    --noc-wa-card-w: calc(100vw - 40px);
+  }
+
+  .noc-wa-root {
+    right: var(--noc-wa-right-mob);
+    bottom: var(--noc-wa-bottom-mob);
+  }
+
+  .noc-wa-tooltip {
+    right: calc(var(--noc-wa-btn-size-mob) + 12px);
+    font-size: 12px;
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .noc-wa-card__header {
+    padding: 15px 13px 13px;
+    gap: 10px;
+  }
+
+  .noc-wa-card__avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .noc-wa-card__avatar svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .noc-wa-card__body {
+    padding: 16px 13px 4px;
+  }
+
+  .noc-wa-card__footer {
+    padding: 13px 13px 12px;
+  }
+
+  .noc-wa-card__cta {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  :root {
+    --noc-wa-card-w: calc(100vw - 36px);
+  }
+
+  .noc-wa-card__bubble {
+    font-size: 12.5px;
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  :root {
+    --noc-wa-right-mob: 16px;
+    --noc-wa-bottom-mob: 18px;
+    --noc-wa-card-w: calc(100vw - 32px);
+  }
+}
+
+/* 360px and below */
+@media (max-width: 360px) {
+  :root {
+    --noc-wa-btn-size-mob: 52px;
+  }
+
+  .noc-wa-card__company {
+    font-size: 12.5px;
+  }
+
+  .noc-wa-card__reply-time {
+    font-size: 10.5px;
+  }
+
+  .noc-wa-card__cta {
+    font-size: 12.5px;
+    padding: 11px 12px;
+  }
+}
+
+/* 320px */
+@media (max-width: 320px) {
+  :root {
+    --noc-wa-right-mob: 12px;
+    --noc-wa-bottom-mob: 14px;
+    --noc-wa-card-w: calc(100vw - 24px);
+  }
+
+  .noc-wa-card__header {
+    padding: 12px 11px;
+    gap: 8px;
+  }
+
+  .noc-wa-card__avatar {
+    width: 34px;
+    height: 34px;
+  }
+}
