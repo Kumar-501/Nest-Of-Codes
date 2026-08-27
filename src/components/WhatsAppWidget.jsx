@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "./WhatsappWidget.css";
+import "./WhatsAppWidget.css";
 
 const WHATSAPP_NUMBER = "9344689428";
 const PHONE_NUMBER = "9344689428";

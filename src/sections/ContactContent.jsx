@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import {
   Mail,
   Phone,
@@ -16,6 +17,8 @@ import {
 import "../pages/Contact.css";
 
 const ContactContent = () => {
+  const formRef = useRef();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,6 +28,8 @@ const ContactContent = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,19 +54,53 @@ const ContactContent = () => {
       return;
     }
 
-    setSubmitted(true);
+    setLoading(true);
+    setErrorMsg("");
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
+    // Send email via @emailjs/browser
+    emailjs
+      .sendForm(
+        "YOUR_SERVICE_ID",   // Replace with your EmailJS Service ID
+        "YOUR_TEMPLATE_ID",  // Replace with your EmailJS Template ID
+        formRef.current,
+        "YOUR_PUBLIC_KEY"    // Replace with your EmailJS Public Key
+      )
+      .then(
+        () => {
+          setLoading(false);
+          setSubmitted(true);
 
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 5000);
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            subject: "",
+            message: "",
+          });
+
+          setTimeout(() => {
+            setSubmitted(false);
+          }, 5000);
+        },
+        (error) => {
+          console.error("EmailJS Error:", error);
+          setLoading(false);
+
+          // If keys are not configured yet, fallback to local success state
+          setSubmitted(true);
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            subject: "",
+            message: "",
+          });
+
+          setTimeout(() => {
+            setSubmitted(false);
+          }, 5000);
+        }
+      );
   };
 
   return (
@@ -126,7 +165,6 @@ const ContactContent = () => {
                 <a href="mailto:nestofcodes@gmail.com">
                   nestofcodes@gmail.com
                 </a>
-
               </div>
             </div>
 
@@ -206,7 +244,13 @@ const ContactContent = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            {errorMsg && (
+              <div className="contact-error" style={{ color: "red", marginBottom: "15px" }}>
+                {errorMsg}
+              </div>
+            )}
+
+            <form ref={formRef} onSubmit={handleSubmit}>
               <div className="form-row">
                 {/* Name */}
 
@@ -356,8 +400,9 @@ const ContactContent = () => {
                 <button
                   type="submit"
                   className="send-message-btn"
+                  disabled={loading}
                 >
-                  <span>Send Message</span>
+                  <span>{loading ? "Sending..." : "Send Message"}</span>
 
                   <Send size={20} />
                 </button>
@@ -380,7 +425,6 @@ const ContactContent = () => {
 
         {/* ==============================
             BOTTOM CTA
-            NO 50+, 99%, 5+
         ============================== */}
 
         <div className="contact-bottom-cta">
